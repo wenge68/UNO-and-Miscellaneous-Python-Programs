@@ -1,8 +1,4 @@
 import random
-#fix reset decks in submission
-#Fix print s
-#PROOF READ ACTUAL SUBMISSION FOR WRITTEN ASSIGNMENT
-#Make sure to convert any input to ints
 class UnoCard:
     '''represents an Uno card
     attributes:
@@ -308,7 +304,6 @@ def play_uno(numPlayers):
     '''play_uno(numPlayers)
     plays a game of Uno with numPlayers'''
     # set up full deck and initial discard pile
-    #BAD DRAW LOOP IN BAD SPOT im not going to fix it because i'm too lazy
     # set up the players
     playerDictAINames = dict()
     for n in range(numPlayers):

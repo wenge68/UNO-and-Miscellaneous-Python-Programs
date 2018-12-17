@@ -1,6 +1,3 @@
-# Python Class 1699
-# Lesson 1 Problem 7
-# Author: aops1234567890987654321 (395043)
 import string
 def split_list(alist, wanted_parts):
     '''split_list(alist, wanted_parts) -> list

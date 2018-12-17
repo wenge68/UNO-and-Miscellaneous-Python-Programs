@@ -1,6 +1,5 @@
 import random
 
-### Die class that we previously wrote ###
 
 class Die:
     '''Die class'''

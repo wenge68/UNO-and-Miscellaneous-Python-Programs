@@ -1,6 +1,4 @@
- import random
-#Make a class for strats 
-#Don't show the computer's cards 
+import random
 class Domino:
 	def __init__(self, leftNum, rightNum):
 		self.leftNum = leftNum
