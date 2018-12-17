@@ -1,4 +1,4 @@
-# UNO and Other Miscellaneous Python Programs
+# UNO and Miscellaneous Python Programs
 This repository contains implementations of several dice games (400 Meters, Discus, Shot Put, Dino Hunt), as well as implementations of dominoes, UNO, and the railfence cipher. 
 
 The UNO program took by far the most time and is also the largest of the 7 programs in terms of number of lines (425 lines).
