@@ -1,5 +1,43 @@
 import random
 
+def print_die_list(dieList):
+    '''print_die_list(dieList)
+    prints the dieList'''
+    print("You have " + str(len(dieList)) + " dice remaining.")
+    green = 0
+    red = 0
+    yellow = 0
+    for die in dieList:
+        dieColor = die.color
+        if dieColor == "green":
+            green+=1
+        if dieColor == "red":
+            red+=1
+        if dieColor == "yellow":
+            yellow+=1
+            
+    print(str(green) + " green, " + str(yellow) + " yellow, " + str(red) + " red.")
+
+def calculate_feet(rolls):
+    '''calculate_feet(rolls) -> int
+    returns the number of feet in a list of rolls'''
+    feetNum = 0
+    for roll in rolls:
+        if roll == "foot":
+            feetNum += 1
+            
+    return feetNum
+
+def calculate_dino(rolls):
+    '''calculate_dino(rolls) -> int
+    returns the number of dino in a list of rolls'''
+    dinoNum = 0
+    for roll in rolls:
+        if roll == "dino":
+            dinoNum += 1
+            
+    return dinoNum
+
 
 class Die:
     '''Die class'''
@@ -59,12 +97,16 @@ class DinoDie(Die):
             Die.__init__(self, ["dino", "dino", "foot", "foot", "leaf", "leaf"])
         if color == "red":
             Die.__init__(self, ["dino", "foot", "foot", "leaf", "leaf", "leaf"])
+            
         self.color = color
+        
     def __str__(self):
         '''str(DinoDie) -> str
         string representation of DinoDie'''
         top = self.get_top()
         return "A " + self.color + " Dino die with a " + top + " on top."
+
+
 class DinoPlayer:
     '''implements a player of Dino Hunt'''
     def __init__(self, name):
@@ -72,14 +114,16 @@ class DinoPlayer:
         name is the name of the DinoPlayer'''
         self.name = name
         self.score = 0
+        
     def __str__(self):
         '''str(DinoPlayer) -> str
         string representation of DinoPlayer'''
         return self.name + " has " + str(self.score)+" points."
+    
     def take_turn(self):
         '''take_turn() 
         player plays a turn'''
-        rolls = []
+
         dieList = []
         for i in range(6):
             dieList.append(DinoDie("green"))
@@ -87,8 +131,11 @@ class DinoPlayer:
             dieList.append(DinoDie("yellow"))
         for i in range(3):
             dieList.append(DinoDie("red"))
+            
         print (self.name + " it's your turn.")
-        self.print_die_list(dieList)
+        print_die_list(dieList)
+        
+        rolls = []
         rollAgain = True
         while len(dieList) != 0 and rollAgain:
             if len(dieList) > 3:
@@ -100,6 +147,7 @@ class DinoPlayer:
                     randomDies.append(dieList[randomIndex])
                     if dieList[randomIndex].get_top() == "foot" or dieList[randomIndex].get_top() == "dino":
                         dieList.pop(randomIndex)
+                        
                 for die in randomDies:
                     rolls.append(die.get_top())
             else:
@@ -107,57 +155,37 @@ class DinoPlayer:
                 randomDies = dieList 
                 for die in randomDies:
                     die.roll()
-                for i in range(len(dieList)):
-                    if dieList[i].get_top() == "foot" or dieList[i].get_top() == "dino":
-                        dieList.pop(i)
+                    
+                length = len(dieList)
+                for i in range(length):
+                    if dieList[length-1-i].get_top() == "foot" or dieList[length-1-i].get_top() == "dino":
+                        dieList.pop(length-1-i)
+                        
             for die in randomDies:
                 print(die)
-            feetNum = self.calculate_feet(rolls)
-            dinoNum = self.calculate_dino(rolls)
+                
+            feetNum = calculate_feet(rolls)
+            dinoNum = calculate_dino(rolls)
             if feetNum >= 3:
                 print("Too bad, you got stomped!")
                 rolls = []
                 break
+                
             print ("This turn so far: " + str(dinoNum) +" dinos and " + str(feetNum) + " feet.")
-            self.print_die_list(dieList)
-            rollAgainInput = input("Do you want to roll again? y/n")
+            print_die_list(dieList)
+            
+            if (len(dieList) == 0):
+                break
+                
+            rollAgainInput = input("Do you want to roll again? (y/n) ")
             if rollAgainInput == "y":
                 rollAgain = True
             else:
                 rollAgain = False
-        self.score += self.calculate_dino(rolls)
-    def print_die_list(self, dieList):
-        '''print_die_list(dieList)
-        prints the dieList'''
-        print("You have " + str(len(dieList)) + " dice remaining.")
-        green = 0
-        red = 0
-        yellow = 0
-        for die in dieList:
-            dieColor = die.color
-            if dieColor == "green":
-                green+=1
-            if dieColor == "red":
-                red+=1
-            if dieColor == "yellow":
-                yellow+=1
-        print(str(green) + " green, " + str(yellow) + " yellow, " + str(red) + " red.")
-    def calculate_feet(self, rolls):
-        '''calculate_feet(rolls) -> int
-        returns the number of feet in a list of rolls'''
-        feetNum = 0
-        for roll in rolls:
-            if roll == "foot":
-                feetNum += 1
-        return feetNum
-    def calculate_dino(self, rolls):
-        '''calculate_dino(rolls) -> int
-        returns the number of dino in a list of rolls'''
-        dinoNum = 0
-        for roll in rolls:
-            if roll == "dino":
-                dinoNum += 1
-        return dinoNum
+                
+        self.score += calculate_dino(rolls)
+             
+
     def get_score(self):
         return self.score
 
@@ -171,6 +199,7 @@ def play_dino_hunt(numPlayers,numRounds):
     for i in range(numPlayers):
         playerName = input("What is player #" + str(i + 1) +'s name?')
         players.append(DinoPlayer(playerName))
+        
     roundNum = 1
     while roundNum <= numRounds:
         print ("Round # " + str(roundNum))
@@ -179,6 +208,7 @@ def play_dino_hunt(numPlayers,numRounds):
         for player in players:
             player.take_turn()
         roundNum += 1
+        
     maxScore = None
     maxScorePlayer = None
     for player in players:
@@ -186,6 +216,9 @@ def play_dino_hunt(numPlayers,numRounds):
         if maxScore == None or playerScore > maxScore:
             maxScore = playerScore
             maxScorePlayer = player
+            
     print("We have a winner!")
     print(maxScorePlayer)
+    
+    
 play_dino_hunt(2, 2)
